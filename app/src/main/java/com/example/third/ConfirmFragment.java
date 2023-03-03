@@ -44,6 +44,12 @@ public class ConfirmFragment extends Fragment {
         Toast toast = Toast.makeText(getContext(), "onCreate", Toast.LENGTH_LONG );
         toast.show();
         Log.d(TAG, "onCreate");
+        // Принятие имени
+
+        fragmentManager.setFragmentResultListener("change to RepositoryFragment", this, (requestKey, result) -> {
+            String results = result.getString("resultText");
+            binding.textView5ForName.setText("Ваше имя: " + results);
+        });
 
     }
 
@@ -61,7 +67,13 @@ public class ConfirmFragment extends Fragment {
         Log.d(TAG, "onViewCreated");
         Toast toast = Toast.makeText(getContext(), "onViewCreated", Toast.LENGTH_LONG );
         toast.show();
-
+        // Передача имени обратно
+        binding.buttonGotovo1.setOnClickListener(view1 -> {
+            Bundle result = new Bundle();
+            result.putString("resultText", binding.textView5ForName.getText().toString());
+            fragmentManager.setFragmentResult("change to HubFragment", result);
+            mainActivity.changeFragment(view1);
+        });
     }
 
     @Override

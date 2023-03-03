@@ -35,7 +35,11 @@ public class HelloFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentManager = getParentFragmentManager();
-
+        // Ваше имя на главном экране
+        fragmentManager.setFragmentResultListener("change to HubFragment", this, (requestKey, result) -> {
+            String results = result.getString("resultText");
+            binding.textView.setText(results);
+        });
     }
 
     @Nullable
@@ -48,7 +52,12 @@ public class HelloFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
+        // Передача имени
+        binding.buttonGotovo.setOnClickListener(view1 -> {
+            Bundle result = new Bundle();
+            result.putString("resultText", binding.editTextTextPersonName.getText().toString());
+            fragmentManager.setFragmentResult("change to RepositoryFragment", result);
+            mainActivity.changeFragment(view1);
+        });
     }
 }
